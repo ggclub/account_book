@@ -58,7 +58,6 @@ class InputLine extends React.Component {
   }
 
   handleChange = event => {
-    console.log('inputline', event)
     const {name, value} = event.target
 
     this.setState({
@@ -67,9 +66,34 @@ class InputLine extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log("submit clicked")
-    this.props.handleSubmit(this.state)
+    let validate = this.ValidateInputs();
+    
+    if (validate) {
+      this.props.handleSubmit(this.state)
+    }
+  }
 
+  ValidateInputs() {
+    let validate = true;
+    const state = this.state
+    
+    // each keys
+    state['amount'] = state['amount'] === '' ? 0 : state['amount']
+    state['day'] = state['day'] < 1 ? 1 : 
+                  state['day'] > 31 ? 31 : state['day']
+    state['ioType'] = state['ioType'] === 'i' ? 'i' :
+                      state['ioType'] === 'o' ? 'o' : 'E'
+
+    // else
+    Object.keys(state).map((key, index) => {
+      console.log(key, state[key]);
+      if (state[key] === '' || typeof(state[key]) === "undefined") {
+        alert("값을 입력해주세요.");
+        validate = false;
+      }
+    });
+
+    return validate;
   }
 
   render() {
@@ -144,11 +168,7 @@ class App extends Component {
 
   handleSubmit = datum => {
     const {data} = this.state;
-    console.log(datum, data)
-    console.log([...data, datum])
-    this.setState({data: [...data, datum]}, () => {
-      console.log(this.state)
-    })
+    this.setState({ data: [...data, datum] })
   }
 
   render() {
