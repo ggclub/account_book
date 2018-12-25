@@ -30,3 +30,15 @@
     transform: rotate(360deg);
   }
 }
+
+.InputLine {
+  padding: 30px;
+}
+
+.TableWrapper {
+  padding: 20px;
+}
+
+input[type=number] {
+  text-align: right;
+}
